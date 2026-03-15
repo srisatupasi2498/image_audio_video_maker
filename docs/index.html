@@ -282,6 +282,9 @@
             // Start monitoring workflow status
             showStatus('loading', `✅ Video generation started for ${language} (${start}-${end}).\n\n⏳ Monitoring progress...`);
             
+            // Update button to show monitoring state
+            btnText.textContent = '⏳ Generating...';
+            
             // Start polling for workflow status
             monitorWorkflowStatus(language, start, end);
             
@@ -293,7 +296,7 @@
         } catch (error) {
           console.error('Error:', error);
           showStatus('error', `❌ Failed to start video generation.\n\n` + `Error: ${error.message}\n\n` + `Please try again or contact support.`);
-        } finally {
+          // Re-enable button only on error
           submitBtn.disabled = false;
           btnText.textContent = 'Generate Videos';
         }
@@ -381,6 +384,7 @@
                   
                   // Re-enable button
                   submitBtn.disabled = false;
+                  btnText.textContent = 'Generate Videos';
                   
                 } else if (conclusion === 'failure') {
                   // FAILED
@@ -392,11 +396,13 @@
                   document.getElementById('status').appendChild(linkDiv);
                   
                   submitBtn.disabled = false;
+                  btnText.textContent = 'Generate Videos';
                   
                 } else {
                   // CANCELLED or other
                   showStatus('error', `⚠️ Workflow ${conclusion}\n\nThe workflow was ${conclusion}.`);
                   submitBtn.disabled = false;
+                  btnText.textContent = 'Generate Videos';
                 }
               }
             }
@@ -412,6 +418,7 @@
               document.getElementById('status').appendChild(linkDiv);
               
               submitBtn.disabled = false;
+              btnText.textContent = 'Generate Videos';
             }
             
           } catch (error) {
