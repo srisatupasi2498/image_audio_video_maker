@@ -217,15 +217,14 @@ class GoogleDriveDownloader:
             logger.error(f"❌ Error downloading {folder_type}: {e}")
             return None
     
-    def _filter_and_copy_files(self, source_folder, dest_folder, config, file_extension):
+    def _filter_and_copy_files(self, source_folder, dest_folder, config, file_extensions):
         """
-        Filter files by range and copy to destination
-        
+        Filter files by range and copy to destination        
         Args:
             source_folder: Source folder path
             dest_folder: Destination folder path
             config: Language configuration
-            file_extension: File extension to filter (.jpg or .mp3)
+            file_extensions: File extension(s) to filter (string or list of strings like '.jpg' or ['.mp3', '.m4a'])
             
         Returns:
             Number of files copied
@@ -238,14 +237,30 @@ class GoogleDriveDownloader:
             logger.error(f"Source folder not found: {source_folder}")
             return 0
         
-        # Get all files matching the pattern
+        # Convert single extension to list for uniform handling
+        if isinstance(file_extensions, str):
+            file_extensions = [file_extensions]
+        
+        # Get all files matching the patterns (recursively search subdirectories)
         code = config['code']
-        all_files = list(source_path.glob(f"{code}*{file_extension}"))
+        all_files = []
+        
+        for file_extension in file_extensions:
+            # Use case-insensitive pattern - search for both lower and upper case extensions
+            ext_lower = file_extension.lower()
+            ext_upper = file_extension.upper()
+            all_files.extend(source_path.rglob(f"{code}*{ext_lower}"))
+            all_files.extend(source_path.rglob(f"{code}*{ext_upper}"))
+        
+        # Remove duplicates that might occur
+        all_files = list(set(all_files))
         
         # Filter by range if specified
         for file in all_files:
-            # Extract number from filename (e.g., GGKND005.jpg -> 5)
-            match = re.search(rf"{code}(\d+){re.escape(file_extension)}$", file.name)
+            # Extract number from filename (e.g., GGKND005.jpg or GGKND005.JPG -> 5)
+            # Match any of the provided extensions (case-insensitive)
+            pattern = rf"{code}(\d+)\.(?:{'|'.join([ext.lstrip('.') for ext in file_extensions])})$"
+            match = re.search(pattern, file.name, re.IGNORECASE)
             if match:
                 file_num = int(match.group(1))
                 
@@ -298,7 +313,7 @@ class GoogleDriveDownloader:
             temp_images, 
             self.INPUT_IMAGES_FOLDER, 
             config, 
-            '.jpg'
+            ['.jpg', '.jpeg', '.png']  # Support multiple image formats
         )
         
         # Download audio to temp
@@ -312,7 +327,7 @@ class GoogleDriveDownloader:
             temp_audio,
             self.INPUT_AUDIO_FOLDER,
             config,
-            '.mp3'
+            ['.mp3', '.m4a', '.wav']  # Support multiple audio formats
         )
         
         # Clean up temp folder
