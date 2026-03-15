@@ -1,349 +1,285 @@
-# 🎬 Image Audio Video Maker
+# 🎬 Video Generator - GuruGeeta Project
 
-Generate high-resolution 1080p videos by combining matching image and audio files with parallel processing for maximum efficiency!
+Automated video generation system with cloud-based processing and multi-language support. Generate 1080p videos from images and audio files with background music - all through a simple web interface!
+
+---
+
+## 🌐 **Web Interface (Recommended)**
+
+### 🚀 **[Launch Video Generator →](https://srisatupasi2498.github.io/image_audio_video_maker/)**
+
+**Click the link above to generate videos instantly - no installation required!**
+
+### How to Use:
+1. 📤 **Upload** your media files to Google Drive (see [Google Drive Setup Guide](GOOGLE_DRIVE_SETUP.md))
+2. 🌐 **Visit** the [Video Generator Web App](https://srisatupasi2498.github.io/image_audio_video_maker/)
+3. 🎬 **Select** language and file range
+4. ✅ **Click** "Generate Videos"
+5. ⏱️ **Wait** 15-25 minutes (status updates automatically)
+6. 📥 **Download** your videos from the workflow artifacts
+
+### Supported Languages:
+- 🇬🇧 English (GGENG)
+- 🇮🇳 Kannada (GGKND)
+- 🇮🇳 Hindi (GGHND)
+- 🇮🇳 Tamil (GGTML)
+- 🇮🇳 Telugu (GGTLG)
+- 🇮🇳 Marathi (GGMRT)
+
+---
 
 ## ✨ Features
 
-- ✅ **Automatic Matching**: Pairs images and audio by filename
-- ✅ **Parallel Processing**: Generate multiple videos simultaneously
+- ✅ **Web-Based Interface**: Generate videos from any device with a browser
+- ✅ **Cloud Processing**: Uses GitHub Actions (free for public repos)
+- ✅ **Unlimited Minutes**: No time limits on public repositories
+- ✅ **Google Drive Integration**: Auto-downloads media from your Google Drive
+- ✅ **Multi-Language Support**: 6 Indian languages + English
+- ✅ **Background Music**: Automatic mixing at 1% volume
 - ✅ **1080p Quality**: Full HD output optimized for YouTube
-- ✅ **Cross-Platform**: Works on Mac and Windows
-- ✅ **No Installation Hassle**: Everything runs in Docker
-- ✅ **Multiple Formats**: Support for various image and audio formats
-- ✅ **One-Click Operation**: Simple scripts to run
+- ✅ **Real-Time Status**: Live workflow monitoring in the UI
+- ✅ **Parallel Workflows**: Run multiple generations simultaneously
+- ✅ **Automatic Cleanup**: No manual file management needed
 
-## 🚀 Quick Start
+---
+
+## 📖 Documentation
+
+- **[Web App Guide](USER_GUIDE.md)** - How to use the web interface
+- **[Google Drive Setup](GOOGLE_DRIVE_SETUP.md)** - Configure your media folders
+- **[Production Guide](PRODUCTION_GUIDE.md)** - Multi-project setup & advanced config
+
+---
+
+## 🚀 Alternative: Local Setup
+
+> **Note:** Most users should use the [Web Interface](https://srisatupasi2498.github.io/image_audio_video_maker/) above. Local setup is for developers or advanced users who want to run the generator on their own machine.
 
 ### Prerequisites
 
-1. **Install Docker Desktop**
-   - Download from: [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
-   - Install and start Docker Desktop
+1. **Install Python 3.11+**
+2. **Install ffmpeg**
+   - Mac: `brew install ffmpeg`
+   - Windows: Download from [ffmpeg.org](https://ffmpeg.org/download.html)
+3. **Install gdown (for Google Drive downloads)**
+   - Mac: `brew install gdown`
+   - Windows: `pip install gdown`
 
-### First Time Setup
+### Local Usage
 
-#### 🍎 Mac Users
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/srisatupasi2498/image_audio_video_maker.git
+   cd image_audio_video_maker
+   ```
 
-```bash
-# Make scripts executable (one-time)
-chmod +x mac/*.sh
+2. **Download media files:**
+   ```bash
+   python3 download_from_gdrive.py --language ENGLISH --start 1 --end 10
+   ```
 
-# Run setup (builds Docker image)
-./mac/SETUP.sh
+3. **Generate videos:**
+   ```bash
+   python3 generate_videos_with_bg.py
+   ```
+
+4. **Find videos in:** `output/` folder
+
+---
+
+## đ File Structure
+
+```
+image_audio_video_maker/
+├── docs/
+│   └── index.html              # Web interface
+├── input/
+│   ├── images/                 # Downloaded images (auto-managed)
+│   ├── audio/                  # Downloaded audio (auto-managed)
+│   └── background/
+│       └── background.mp3      # Background music (1% volume)
+├── output/                      # Generated videos appear here
+├── download_from_gdrive.py     # Google Drive downloader
+├── generate_videos_with_bg.py  # Video generator with background music
+├── config.json                 # Multi-project configuration
+└── .github/workflows/
+    └── generate-videos.yml     # GitHub Actions automation
 ```
 
-#### 🪟 Windows Users
+---
 
-```batch
-# Double-click to run setup
-windows\SETUP.bat
+## 🎯 How It Works
+
+### Cloud Workflow (Recommended)
+
+1. **User fills web form** → Selects language & file range
+2. **GitHub Actions triggered** → Spins up macOS runner
+3. **Downloads media** → From Google Drive using `gdown`
+4. **Generates videos** → Using ffmpeg with background music
+5. **Uploads artifacts** → Videos available for 30 days
+6. **User downloads** → Clicks download link in UI
+
+### Local Workflow (Developers)
+
+```mermaid
+graph LR
+    A[Google Drive] -->|download_from_gdrive.py| B[input/]
+    B --> C[generate_videos_with_bg.py]
+    D[background.mp3] --> C
+    C --> E[output/]
 ```
 
-### Regular Usage
-
-#### 🍎 Mac
-
-1. Add your files to `input/images/` and `input/audio/`
-2. Run: `./mac/RUN_GENERATOR.sh`
-3. Find videos in `output/` folder
-
-#### 🪟 Windows
-
-1. Add your files to `input\images\` and `input\audio\`
-2. Double-click: `windows\RUN_GENERATOR.bat`
-3. Find videos in `output\` folder
+---
 
 ## 📁 File Requirements
 
-### Image Files (input/images/)
+### Google Drive Folder Structure
 
-**Supported Formats:**
-
-- JPG, JPEG
-- PNG
-- BMP
-
-**Requirements:**
-
-- Any resolution (will be scaled to 1080p)
-- Recommended: 1920x1080 for best quality
-- Filenames must match audio files
-
-### Audio Files (input/audio/)
-
-**Supported Formats:**
-
-- MP3
-- WAV
-- M4A
-- AAC
-- FLAC
-
-**Requirements:**
-
-- Any duration
-- Recommended: 192kbps or higher quality
-- Filenames must match image files
-
-### 🔑 Critical: Filename Matching
-
-**Images and audio must have matching base names:**
-
-✅ **Correct Examples:**
+Your Google Drive should be organized as follows:
 
 ```
-input/images/1_shloka.jpg      → input/audio/1_shloka.mp3    → output/1_shloka.mp4
-input/images/2_meditation.png  → input/audio/2_meditation.wav → output/2_meditation.mp4
-input/images/3_peace.jpg       → input/audio/3_peace.m4a     → output/3_peace.mp4
+Srisatupasi/
+├── GG ENGLISH/
+│   ├── ENGLISH jpg files/
+│   │   ├── GGENG001.jpg
+│   │   ├── GGENG002.jpg
+│   │   └── ...
+│   └── Final ENGLISH audio files/
+│       ├── GGENG001.mp3
+│       ├── GGENG002.mp3
+│       └── ...
+├── GG KANNADA/
+│   ├── KANNADA jpg files/
+│   │   ├── GGKND001.jpg
+│   │   └── ...
+│   └── Final KANNADA audio files/
+│       ├── GGKND001.mp3
+│       └── ...
+└── (similar structure for HINDI, TAMIL, TELUGU, MARATHI)
 ```
 
-❌ **Won't Work:**
+### File Naming Convention
 
-```
-input/images/video1.jpg + input/audio/audio1.mp3  (different names)
-```
+**Format:** `GG[LANGUAGE_CODE][NUMBER].[extension]`
 
-## 📹 Output Videos
+- English: `GGENG001.jpg`, `GGENG001.mp3`
+- Kannada: `GGKND001.jpg`, `GGKND001.mp3`
+- Hindi: `GGHND001.jpg`, `GGHND001.mp3`
+- Tamil: `GGTML001.jpg`, `GGTML001.mp3`
+- Telugu: `GGTLG001.jpg`, `GGTLG001.mp3`
+- Marathi: `GGMRT001.jpg`, `GGMRT001.mp3`
 
-### Specifications
+**Numbers:** 3 digits, zero-padded (001, 002, ..., 999)
+
+### Supported Formats
+
+**Images:**
+- JPG, JPEG, PNG (any resolution, scaled to 1080p)
+
+**Audio:**
+- MP3, WAV, M4A, AAC (any duration/bitrate)
+
+---
+
+## 📹 Output Specifications
 
 - **Resolution:** 1920x1080 (1080p Full HD)
 - **Format:** MP4 (H.264 + AAC)
-- **Video Codec:** H.264 (x264) with CRF 23
-- **Audio Codec:** AAC at 192kbps
-- **Optimization:** Web streaming ready (faststart enabled)
+- **Video Codec:** H.264 with CRF 23
+- **Audio:** Main audio + background music (1% volume)
 - **Duration:** Matches audio file duration
+- **Optimization:** Web streaming ready
 
-### Output Location
+---
 
-Videos are saved in the `output/` folder with the same name as input files:
+## 💡 Tips & Best Practices
 
-- `1_shloka.jpg` + `1_shloka.mp3` → `output/1_shloka.mp4`
+### For Best Results:
 
-## 🎯 Example Workflow
+1. **Use consistent image dimensions** (1920x1080 recommended)
+2. **Use high-quality audio** (192kbps+ MP3 or WAV)
+3. **Number files sequentially** for easy batch generation
+4. **Test with 1-2 files first** before bulk generation
+5. **Monitor the workflow link** for real-time progress
 
-1. **Prepare Your Files:**
+### Parallel Workflows:
 
-   ```
-   input/images/
-   ├── 1_morning_prayer.jpg
-   ├── 2_evening_prayer.jpg
-   └── 3_meditation.jpg
+- ✅ **You can run multiple workflows simultaneously**
+- ✅ Each workflow is tracked independently
+- ✅ Downloads remain available for 30 days
+- ⚠️ Be mindful of Google Drive rate limits
 
-   input/audio/
-   ├── 1_morning_prayer.mp3
-   ├── 2_evening_prayer.mp3
-   └── 3_meditation.mp3
-   ```
-
-2. **Run the Generator:**
-   - Mac: `./mac/RUN_GENERATOR.sh`
-   - Windows: Double-click `windows\RUN_GENERATOR.bat`
-
-3. **Get Your Videos:**
-   ```
-   output/
-   ├── 1_morning_prayer.mp4
-   ├── 2_evening_prayer.mp4
-   ├── 3_meditation.mp4
-   └── video_generation.log
-   ```
-
-## ⚙️ Advanced Settings
-
-### Adjust Parallel Processing
-
-By default, 4 videos are generated simultaneously. To change this:
-
-1. Open `generate_videos.py`
-2. Find line: `generator = VideoGenerator(max_workers=4)`
-3. Change the number (e.g., `max_workers=8` for 8 parallel jobs)
-4. Rebuild: Run setup script again
-
-**Note:** More workers = faster processing but higher CPU/memory usage.
-
-### Video Quality Settings
-
-Default settings provide excellent quality. To customize:
-
-Edit these variables in `generate_videos.py`:
-
-```python
-VIDEO_RESOLUTION = "1920x1080"  # Resolution
-CRF = "23"                       # Quality (lower = better, 18-28 range)
-PRESET = "medium"                # Speed (ultrafast/fast/medium/slow/veryslow)
-AUDIO_BITRATE = "192k"           # Audio quality
-```
+---
 
 ## 🛠️ Troubleshooting
 
-### Docker Not Running
+### Workflow Fails with "Folder IDs not configured"
 
-```
-ERROR: Docker is not running!
-```
+**Solution:** Update folder IDs in `download_from_gdrive.py` (see [Google Drive Setup](GOOGLE_DRIVE_SETUP.md))
 
-**Solution:** Start Docker Desktop and wait for it to fully start.
+### Videos Not Generating
 
-### No Matching Files
+**Possible causes:**
+1. Files not found in Google Drive
+2. Incorrect file naming (must match `GGXXX###` format)
+3. Missing image or audio file for a number
 
-```
-WARNING: No matching image/audio pairs found!
-```
+**Check:** View workflow logs in GitHub Actions
 
-**Solution:** Ensure image and audio filenames match exactly (excluding extension).
-
-### Build Fails
-
-```
-ERROR: Docker build failed!
-```
+### Download Link Not Appearing
 
 **Solution:**
-
-- Check your internet connection
-- Ensure Docker Desktop has enough resources (Settings → Resources)
-- Try running setup again
-
-### Permission Denied (Mac)
-
-```
-Permission denied: ./mac/RUN_GENERATOR.sh
-```
-
-**Solution:**
-
-```bash
-chmod +x mac/*.sh
-```
-
-## 📊 Performance
-
-**Processing Speed:**
-
-- Depends on video count, audio duration, and CPU
-- Parallel processing significantly speeds up multiple videos
-- Example: 10 videos (5 min each) ≈ 15-20 minutes on 4-core system
-
-**Resource Usage:**
-
-- CPU: Moderate to high during encoding
-- RAM: ~500MB per parallel worker
-- Disk: Output videos are ~5-20MB per minute
-
-## 🔍 Logs
-
-Detailed logs are saved to `output/video_generation.log`:
-
-- Matched file pairs
-- Processing status for each video
-- Success/failure messages
-- File sizes and durations
-- Error details
-
-## 📦 Distribution
-
-To share this with others:
-
-1. **Create a zip file** of the entire `gg_parayana` folder
-2. **Share with these instructions:**
-   - Extract the folder
-   - Install Docker Desktop
-   - Run setup script (one time)
-   - Add files and run generator
-
-**What's Included:**
-
-- Docker configuration
-- Python script
-- Run scripts for Mac/Windows
-- Setup scripts
-- Documentation
-- Input/output folder structure
-
-## 🎓 Technical Details
-
-### Docker Container
-
-- Base: Python 3.11 slim
-- Includes: FFMPEG, Python
-- Volumes: input/output folders mounted
-- Runs: Automatically on `docker-compose up`
-
-### FFMPEG Command
-
-The generator uses optimized FFMPEG settings:
-
-- Still image optimization (`-tune stillimage`)
-- Smart scaling with letterboxing
-- Fast start for web streaming
-- High compatibility (yuv420p pixel format)
-
-### Python Script
-
-- Automatic file discovery and matching
-- ThreadPoolExecutor for parallel processing
-- Comprehensive error handling
-- Detailed logging
-- Clean shutdown
-
-## 📝 License
-
-This tool is provided as-is for generating videos from your own content.
-
-## 🙏 Support
-
-For issues or questions:
-
-1. Check the logs in `output/video_generation.log`
-2. Verify Docker Desktop is running
-3. Ensure files are named correctly
-4. Check available disk space
+- Use the permanent "View All Workflows" link at top of web form
+- Click on your specific workflow run
+- Scroll to "Artifacts" section at bottom
+- Download the ZIP file
 
 ---
 
-**Made with ❤️ for easy video generation from images and audio**
+## 📊 Technical Details
 
-# Download media for English videos 1-5
+### GitHub Actions Workflow
 
-./download.sh --language ENGLISH --start 1 --end 5
+- **Runner:** macOS (latest)
+- **Timeout:** 90 minutes
+- **Dependencies:** gdown, ffmpeg, Python 3.11
+- **Artifact Retention:** 30 days
+- **Cost:** Free (unlimited for public repos)
 
-# Generate the videos
+### Processing Time
 
-python3 generate_videos_with_bg.py
+- **Download:** ~2-5 minutes (depends on file count)
+- **Video Generation:** ~1-2 minutes per video
+- **Upload:** ~1-2 minutes
 
-# Upload generated videos and delete local copies
-
-python3 upload_to_gdrive.py --language ENGLISH --delete
-
----
-
-# Step 1: Download media from Google Drive
-
-python3 download_from_gdrive.py --language ENGLISH --start 1 --end 10
-
-# Step 2: Generate videos
-
-python3 generate_videos_with_bg.py
-
-# Step 3: Upload videos back to Google Drive
-
-python3 upload_to_gdrive.py --language ENGLISH
+**Example:** 10 videos = ~15-25 minutes total
 
 ---
 
-# Upload all videos (auto-detects language from filename)
+## 🤝 Contributing
 
-python3 upload_to_gdrive.py
+This is a production system for the GuruGeeta project. For changes:
 
-# Upload only ENGLISH videos
+1. Fork the repository
+2. Create a feature branch
+3. Test locally before committing
+4. Submit a pull request
 
-python3 upload_to_gdrive.py --language ENGLISH
+---
 
-# Upload and delete local files after success
+## 📞 Support
 
-python3 upload_to_gdrive.py --delete
+- **Issues:** [GitHub Issues](https://github.com/srisatupasi2498/image_audio_video_maker/issues)
+- **Documentation:** See guides in this repo
+- **Web App:** [https://srisatupasi2498.github.io/image_audio_video_maker/](https://srisatupasi2498.github.io/image_audio_video_maker/)
 
-# Upload specific language and clean up
+---
 
-python3 upload_to_gdrive.py --language KANNADA --delete
+## 📄 License
+
+This project is for the GuruGeeta spiritual content initiative.
+
+---
+
+**Made with ❤️ for spreading spiritual knowledge**
+

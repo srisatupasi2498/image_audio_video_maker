@@ -1,5 +1,7 @@
 name: 🎬 Generate Videos
 
+run-name: 🎬 ${{ inputs.language }} Videos (${{ inputs.start }}-${{ inputs.end }})
+
 on:
   workflow_dispatch:
     inputs:
