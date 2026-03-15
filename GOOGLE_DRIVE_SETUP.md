@@ -71,10 +71,12 @@ For each shared folder, get the folder ID:
 3. Click "New repository secret" for each of these:
 
 **Service Account Key:**
+
 - Name: `GOOGLE_SERVICE_ACCOUNT_KEY`
 - Value: Open the JSON file you downloaded, copy the ENTIRE contents, paste it
 
 **Folder IDs for each language:**
+
 - Name: `ENGLISH_VIDEO_FOLDER_ID`
 - Value: (paste the folder ID from step 6)
 
@@ -96,6 +98,7 @@ For each shared folder, get the folder ID:
 ### 8. Update requirements.txt
 
 The workflow needs these Python packages:
+
 ```
 google-auth
 google-auth-oauthlib
@@ -117,11 +120,13 @@ After setup, test the upload:
 ## Security Notes
 
 ✅ **Safe:**
+
 - Service account has limited permissions (only Drive API)
 - JSON key is stored as GitHub secret (encrypted)
 - Only shares specific folders, not entire Drive
 
 ⚠️ **Important:**
+
 - Never commit the service account JSON file to git
 - Don't share the JSON key publicly
 - Keep GitHub secrets protected
@@ -129,20 +134,25 @@ After setup, test the upload:
 ## Troubleshooting
 
 ### "Permission denied" error
+
 → Make sure you shared the folder with the service account email
 
 ### "Folder not found" error
+
 → Check that folder IDs are correct in GitHub secrets
 
 ### "API not enabled" error
+
 → Enable Google Drive API in Google Cloud Console
 
 ### Upload is slow
+
 → Normal for large videos. GitHub Actions has good bandwidth.
 
 ## Cost
 
 **FREE** ✅
+
 - Google Cloud free tier includes Drive API usage
 - No charges for reasonable video upload volumes
 - GitHub Actions free tier: 2,000 minutes/month
@@ -150,6 +160,7 @@ After setup, test the upload:
 ## Alternative: Artifact Download Only
 
 If you prefer NOT to set up Google Drive upload:
+
 - Videos will still be available as **GitHub Artifacts**
 - Download from workflow page after generation
 - Artifacts expire after 30 days

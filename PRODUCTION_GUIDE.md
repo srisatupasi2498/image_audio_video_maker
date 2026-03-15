@@ -9,16 +9,19 @@ This system now supports **multiple projects** and uses a **flexible configurati
 ## 📋 Quick Summary of Improvements
 
 ### ✅ **1. Direct Download Link**
+
 - Form now shows a direct link to download videos
 - Auto-redirects to workflow page after 3 seconds
 - Clear instructions on where to find artifacts
 
 ### ✅ **2. Configuration File (`config.json`)**
+
 - All Google Drive folder IDs are now in `config.json`
 - Easy to change without touching code
 - Support for multiple projects
 
 ### ✅ **3. Multi-Project Support**
+
 - Can handle different naming patterns (not just "GG" prefix)
 - Switch between projects by changing `active_project` in config
 - Each project can have its own folder structure
@@ -64,6 +67,7 @@ Edit `/Users/vkuma153/video_generator/image_audio_video_maker/config.json`:
 For production, use GitHub repository variables to avoid committing folder IDs:
 
 1. **Go to Repository Settings:**
+
    ```
    https://github.com/srisatupasi2498/image_audio_video_maker/settings/variables/actions
    ```
@@ -115,6 +119,7 @@ For production, use GitHub repository variables to avoid committing folder IDs:
    - `BGHND001.jpg`, `BGHND001.mp3` (Hindi)
 
 3. **Commit and push:**
+
 ```bash
 git add config.json
 git commit -m "Add Bhagavad Gita project"
