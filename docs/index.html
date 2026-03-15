@@ -279,14 +279,12 @@
           });
 
           if (response.status === 204) {
-            showStatus(
-              'success',
-              `✅ Success! Video generation started for ${language} (${start}-${end}).\n\n` +
-                `⏱️ This will take approximately 15-20 minutes.\n\n` +
-                `📁 Videos will appear in GitHub Actions artifacts when complete.\n\n` +
-                `🔍 Check progress at:\n` +
-                `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/actions`,
-            );
+            // Start monitoring workflow status
+            showStatus('loading', `✅ Video generation started for ${language} (${start}-${end}).\n\n⏳ Monitoring progress...`);
+            
+            // Start polling for workflow status
+            monitorWorkflowStatus(language, start, end);
+            
             form.reset();
           } else {
             const errorText = await response.text();
@@ -306,6 +304,121 @@
         status.style.display = 'block';
         status.textContent = message;
         status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Monitor workflow status in real-time
+      async function monitorWorkflowStatus(language, start, end) {
+        const workflowName = `Generate ${language} Videos (${start}-${end})`;
+        let pollCount = 0;
+        const maxPolls = 60; // Poll for up to 30 minutes (60 * 30sec)
+        
+        const pollInterval = setInterval(async () => {
+          try {
+            pollCount++;
+            
+            // Get recent workflow runs
+            const runsUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/actions/runs?per_page=5`;
+            const runsResponse = await fetch(runsUrl, {
+              headers: {
+                Accept: 'application/vnd.github.v3+json',
+                Authorization: `Bearer ${GITHUB_TOKEN}`,
+              },
+            });
+            
+            if (!runsResponse.ok) {
+              throw new Error('Failed to fetch workflow status');
+            }
+            
+            const runsData = await runsResponse.json();
+            
+            // Find our workflow run (most recent matching one)
+            const ourRun = runsData.workflow_runs?.find(run => run.name === workflowName);
+            
+            if (!ourRun) {
+              if (pollCount < 5) {
+                // Still waiting for workflow to appear
+                showStatus('loading', `⏳ Waiting for workflow to start...\n\n(Attempt ${pollCount}/5)`);
+                return;
+              }
+            }
+            
+            if (ourRun) {
+              const status = ourRun.status; // queued, in_progress, completed
+              const conclusion = ourRun.conclusion; // success, failure, cancelled, etc.
+              const runUrl = ourRun.html_url;
+              
+              // Update status message based on workflow state
+              if (status === 'queued') {
+                showStatus('loading', `🔄 Video generation queued...\n\nWaiting for available runner...`);
+              } else if (status === 'in_progress') {
+                const startTime = new Date(ourRun.created_at);
+                const now = new Date();
+                const elapsed = Math.floor((now - startTime) / 1000 / 60); // minutes
+                showStatus('loading', `⚙️ Generating videos...\n\nTime elapsed: ${elapsed} minutes\n\n⏱️ Estimated time remaining: ${Math.max(0, 20 - elapsed)} minutes`);
+              } else if (status === 'completed') {
+                clearInterval(pollInterval);
+                
+                if (conclusion === 'success') {
+                  // SUCCESS!
+                  showStatus('success', `✅ SUCCESS! Videos generated for ${language} (${start}-${end})\n\n📥 DOWNLOAD YOUR VIDEOS:`);
+                  
+                  // Add download button
+                  const linkDiv = document.createElement('div');
+                  linkDiv.style.marginTop = '15px';
+                  linkDiv.innerHTML = `
+                    <p style="margin-bottom: 10px; font-weight: 600;">Click below to download:</p>
+                    <a href="${runUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; background: #28a745; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 5px;">📥 Download Videos from Artifacts →</a>
+                    <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                      Instructions:<br/>
+                      1. Click the button above<br/>
+                      2. Scroll to bottom of page<br/>
+                      3. Find "Artifacts" section<br/>
+                      4. Click to download ZIP file<br/>
+                      5. Unzip to get your videos
+                    </p>
+                  `;
+                  document.getElementById('status').appendChild(linkDiv);
+                  
+                  // Re-enable button
+                  submitBtn.disabled = false;
+                  
+                } else if (conclusion === 'failure') {
+                  // FAILED
+                  showStatus('error', `❌ VIDEO GENERATION FAILED\n\nSomething went wrong during generation.\n\nPossible causes:\n- Files not found in Google Drive\n- Invalid file range\n- System error\n\nClick below to view error logs:`);
+                  
+                  const linkDiv = document.createElement('div');
+                  linkDiv.style.marginTop = '15px';
+                  linkDiv.innerHTML = `<a href="${runUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; background: #dc3545; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">🔍 View Error Logs →</a>`;
+                  document.getElementById('status').appendChild(linkDiv);
+                  
+                  submitBtn.disabled = false;
+                  
+                } else {
+                  // CANCELLED or other
+                  showStatus('error', `⚠️ Workflow ${conclusion}\n\nThe workflow was ${conclusion}.`);
+                  submitBtn.disabled = false;
+                }
+              }
+            }
+            
+            // Stop polling after max attempts
+            if (pollCount >= maxPolls) {
+              clearInterval(pollInterval);
+              showStatus('error', `⏱️ Monitoring timeout\n\nWorkflow is taking longer than expected.\n\nCheck status manually:`);
+              
+              const linkDiv = document.createElement('div');
+              linkDiv.style.marginTop = '15px';
+              linkDiv.innerHTML = `<a href="https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/actions" target="_blank" style="display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">🔍 Check Workflow Status →</a>`;
+              document.getElementById('status').appendChild(linkDiv);
+              
+              submitBtn.disabled = false;
+            }
+            
+          } catch (error) {
+            console.error('Polling error:', error);
+            // Continue polling despite errors
+          }
+        }, 30000); // Poll every 30 seconds
       }
     </script>
   </body>

@@ -46,6 +46,8 @@ jobs:
           brew install gdown
           echo "Installing ffmpeg..."
           brew install ffmpeg
+          echo "Installing Google Drive API dependencies..."
+          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
           echo "✓ All dependencies installed"
 
       - name: 📥 Download Media from Google Drive
@@ -79,22 +81,29 @@ jobs:
           echo "Generated videos:"
           ls -lh output/*.mp4 || echo "No videos generated"
 
-      - name: 📦 Upload Videos as Artifact
+      - name: � Upload Videos to Google Drive
+        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY != '' }}
+        env:
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          ENGLISH_VIDEO_FOLDER_ID: ${{ secrets.ENGLISH_VIDEO_FOLDER_ID }}
+          KANNADA_VIDEO_FOLDER_ID: ${{ secrets.KANNADA_VIDEO_FOLDER_ID }}
+          TELUGU_VIDEO_FOLDER_ID: ${{ secrets.TELUGU_VIDEO_FOLDER_ID }}
+          HINDI_VIDEO_FOLDER_ID: ${{ secrets.HINDI_VIDEO_FOLDER_ID }}
+          MARATHI_VIDEO_FOLDER_ID: ${{ secrets.MARATHI_VIDEO_FOLDER_ID }}
+          TAMIL_VIDEO_FOLDER_ID: ${{ secrets.TAMIL_VIDEO_FOLDER_ID }}
+        run: |
+          echo "📤 Uploading ${{ inputs.language }} videos to Google Drive..."
+          python3 upload_to_gdrive_simple.py ${{ inputs.language }}
+          echo "✓ Upload complete"
+
+      - name: 📦 Upload Videos as Artifact (Backup)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: generated-videos-${{ inputs.language }}-${{ inputs.start }}-${{ inputs.end }}
           path: output/*.mp4
           retention-days: 30
-
-      # Upload to Google Drive (disabled - requires gdrive setup with OAuth)
-      # To enable: setup gdrive with Google API credentials and add GDRIVE_TOKEN secret
-      # - name: 📤 Upload Videos to Google Drive
-      #   run: |
-      #     echo "Uploading ${{ inputs.language }} videos to Google Drive..."
-      #     python3 upload_to_gdrive.py \
-      #       --language ${{ inputs.language }} \
-      #       --delete
-      #     echo "✓ Upload complete, local files deleted"
+          if-no-files-found: warn
 
       - name: ✅ Summary
         if: success()

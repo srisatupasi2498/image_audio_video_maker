@@ -1,0 +1,57 @@
+{
+  "projects": {
+    "GuruGeeta": {
+      "file_prefix_pattern": "GG{LANG_CODE}",
+      "languages": {
+        "ENGLISH": {
+          "code": "ENG",
+          "images_folder_id": "1WM3BmU46pRya1ZloxZJ---HbU_phALlZ",
+          "audio_folder_id": "1luI0MuvI5NnRh8Oh-0b6NWAJ8SAaWU2R",
+          "video_folder_id": "",
+          "digits": 3
+        },
+        "KANNADA": {
+          "code": "KND",
+          "images_folder_id": "",
+          "audio_folder_id": "",
+          "video_folder_id": "",
+          "digits": 3
+        },
+        "TELUGU": {
+          "code": "TLG",
+          "images_folder_id": "",
+          "audio_folder_id": "",
+          "video_folder_id": "",
+          "digits": 3
+        },
+        "HINDI": {
+          "code": "HND",
+          "images_folder_id": "",
+          "audio_folder_id": "",
+          "video_folder_id": "",
+          "digits": 3
+        },
+        "MARATHI": {
+          "code": "MRT",
+          "images_folder_id": "",
+          "audio_folder_id": "",
+          "video_folder_id": "",
+          "digits": 3
+        },
+        "TAMIL": {
+          "code": "TML",
+          "images_folder_id": "",
+          "audio_folder_id": "",
+          "video_folder_id": "",
+          "digits": 3
+        }
+      }
+    }
+  },
+  "active_project": "GuruGeeta",
+  "background_music": {
+    "file_id": "",
+    "filename": "background.mp3",
+    "volume": 0.01
+  }
+}
