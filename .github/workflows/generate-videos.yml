@@ -81,18 +81,13 @@ jobs:
           echo "Generated videos:"
           ls -lh output/*.mp4 || echo "No videos generated"
 
-      - name: � Upload Videos to Google Drive
-        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY != '' }}
-        env:
-          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
-          ENGLISH_VIDEO_FOLDER_ID: ${{ secrets.ENGLISH_VIDEO_FOLDER_ID }}
-          KANNADA_VIDEO_FOLDER_ID: ${{ secrets.KANNADA_VIDEO_FOLDER_ID }}
-          TELUGU_VIDEO_FOLDER_ID: ${{ secrets.TELUGU_VIDEO_FOLDER_ID }}
-          HINDI_VIDEO_FOLDER_ID: ${{ secrets.HINDI_VIDEO_FOLDER_ID }}
-          MARATHI_VIDEO_FOLDER_ID: ${{ secrets.MARATHI_VIDEO_FOLDER_ID }}
-          TAMIL_VIDEO_FOLDER_ID: ${{ secrets.TAMIL_VIDEO_FOLDER_ID }}
-        run: |
-          echo "📤 Uploading ${{ inputs.language }} videos to Google Drive..."
+      # Google Drive Upload - Disabled (uncomment when secrets are configured)
+      # - name: 📤 Upload Videos to Google Drive
+      #   env:
+      #     GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+      #   run: |
+      #     echo "📤 Uploading videos to Google Drive..."
+      #     # Add upload script here when ready
           python3 upload_to_gdrive_simple.py ${{ inputs.language }}
           echo "✓ Upload complete"
 
