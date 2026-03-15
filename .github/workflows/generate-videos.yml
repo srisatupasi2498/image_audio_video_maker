@@ -87,9 +87,8 @@ jobs:
       #     GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
       #   run: |
       #     echo "📤 Uploading videos to Google Drive..."
-      #     # Add upload script here when ready
-      #   python3 upload_to_gdrive_simple.py ${{ inputs.language }}
-      #   echo "✓ Upload complete"
+      #     python3 upload_to_gdrive_simple.py ${{ inputs.language }}
+      #     echo "✓ Upload complete"
 
       - name: 📦 Upload Videos as Artifact (Backup)
         if: always()

@@ -279,11 +279,24 @@
           });
 
           if (response.status === 204) {
-            // Start monitoring workflow status
+            // Workflow triggered successfully
             showStatus('loading', `✅ Video generation started for ${language} (${start}-${end}).\n\n⏳ Monitoring progress...`);
+            
+            // Add immediate link to Actions page
+            const actionsLink = document.createElement('div');
+            actionsLink.style.marginTop = '15px';
+            actionsLink.innerHTML = `
+              <p style="margin-bottom: 10px; font-weight: 600;">📋 Track your workflow:</p>
+              <a href="https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO}/actions" target="_blank" style="display: inline-block; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">🔍 View Workflow Status →</a>
+              <p style="margin-top: 10px; font-size: 12px; color: #666;">
+                Status will update automatically below. You can trigger more videos while this one runs.
+              </p>
+            `;
+            document.getElementById('status').appendChild(actionsLink);
 
-            // Update button to show monitoring state
-            btnText.textContent = '⏳ Generating...';
+            // Re-enable button immediately for parallel workflows
+            submitBtn.disabled = false;
+            btnText.textContent = 'Generate Videos';
 
             // Start polling for workflow status
             monitorWorkflowStatus(language, start, end);
