@@ -11,6 +11,7 @@ Automated video generation system with cloud-based processing and multi-language
 **Click the link above to generate videos instantly - no installation required!**
 
 ### How to Use:
+
 1. 📤 **Upload** your media files to Google Drive (see [Google Drive Setup Guide](GOOGLE_DRIVE_SETUP.md))
 2. 🌐 **Visit** the [Video Generator Web App](https://srisatupasi2498.github.io/image_audio_video_maker/)
 3. 🎬 **Select** language and file range
@@ -19,6 +20,7 @@ Automated video generation system with cloud-based processing and multi-language
 6. 📥 **Download** your videos from the workflow artifacts
 
 ### Supported Languages:
+
 - 🇬🇧 English (GGENG)
 - 🇮🇳 Kannada (GGKND)
 - 🇮🇳 Hindi (GGHND)
@@ -68,17 +70,20 @@ Automated video generation system with cloud-based processing and multi-language
 ### Local Usage
 
 1. **Clone this repository:**
+
    ```bash
    git clone https://github.com/srisatupasi2498/image_audio_video_maker.git
    cd image_audio_video_maker
    ```
 
 2. **Download media files:**
+
    ```bash
    python3 download_from_gdrive.py --language ENGLISH --start 1 --end 10
    ```
 
 3. **Generate videos:**
+
    ```bash
    python3 generate_videos_with_bg.py
    ```
@@ -174,9 +179,11 @@ Srisatupasi/
 ### Supported Formats
 
 **Images:**
+
 - JPG, JPEG, PNG (any resolution, scaled to 1080p)
 
 **Audio:**
+
 - MP3, WAV, M4A, AAC (any duration/bitrate)
 
 ---
@@ -220,6 +227,7 @@ Srisatupasi/
 ### Videos Not Generating
 
 **Possible causes:**
+
 1. Files not found in Google Drive
 2. Incorrect file naming (must match `GGXXX###` format)
 3. Missing image or audio file for a number
@@ -229,6 +237,7 @@ Srisatupasi/
 ### Download Link Not Appearing
 
 **Solution:**
+
 - Use the permanent "View All Workflows" link at top of web form
 - Click on your specific workflow run
 - Scroll to "Artifacts" section at bottom
@@ -282,4 +291,3 @@ This project is for the GuruGeeta spiritual content initiative.
 ---
 
 **Made with ❤️ for spreading spiritual knowledge**
-
