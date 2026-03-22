@@ -341,16 +341,35 @@ class GoogleDriveDownloader:
         logger.info(f"Images copied: {images_copied}")
         logger.info(f"Audio copied:  {audio_copied}")
         
-        if images_copied == audio_copied and images_copied > 0:
+        # Check for errors
+        if images_copied == 0 and audio_copied == 0:
+            logger.error("="*60)
+            logger.error("❌ FAILURE: No files were copied")
+            logger.error("="*60)
+            logger.error("Possible reasons:")
+            logger.error("  1. Files don't exist in the specified range")
+            logger.error("  2. Google Drive folder IDs are incorrect")
+            logger.error("  3. Files are not shared with 'Anyone with the link'")
+            logger.error(f"  4. Looking for: {config['code']}{str(self.start_num).zfill(config['digits']) if self.start_num else '001'} to {config['code']}{str(self.end_num).zfill(config['digits']) if self.end_num else 'XXX'}")
+            logger.error("="*60)
+            return False
+        elif images_copied != audio_copied:
+            logger.error("="*60)
+            logger.error("❌ FAILURE: Image/Audio count mismatch")
+            logger.error("="*60)
+            logger.error(f"  Images found: {images_copied}")
+            logger.error(f"  Audio found:  {audio_copied}")
+            logger.error("")
+            logger.error("This will prevent video generation. Possible reasons:")
+            logger.error("  1. File names don't match between image and audio folders")
+            logger.error("  2. Some files are missing from Google Drive")
+            logger.error("  3. Files have typos (e.g., GGENG0012 vs GGENG012)")
+            logger.error(f"  4. Check files in range: {config['code']}{str(self.start_num).zfill(config['digits']) if self.start_num else '001'} to {config['code']}{str(self.end_num).zfill(config['digits']) if self.end_num else 'XXX'}")
+            logger.error("="*60)
+            return False
+        else:
             logger.info("✅ Success! All files downloaded and matched")
             return True
-        elif images_copied != audio_copied:
-            logger.warning(f"⚠️  Mismatch: {images_copied} images vs {audio_copied} audio files")
-            logger.warning("   Some files may not match - check your Google Drive folders")
-            return True
-        else:
-            logger.error("❌ No files were copied")
-            return False
     
     def download_background_music(self):
         """Download background music file from Google Drive"""

@@ -267,7 +267,14 @@ class VideoGenerator:
         file_pairs = self._get_file_pairs()
         
         if not file_pairs:
-            logger.error("No matching image/audio pairs found!")
+            logger.error("="*60)
+            logger.error("❌ FAILURE: No matching image/audio pairs found!")
+            logger.error("="*60)
+            logger.error("Video generation cannot proceed. Check:")
+            logger.error("  1. Files exist in input/images/ and input/audio/")
+            logger.error("  2. Image and audio filenames match (same base name)")
+            logger.error("  3. Download step completed successfully")
+            logger.error("="*60)
             return {
                 'total': 0,
                 'success': 0,
@@ -349,7 +356,16 @@ def main():
     results = generator.generate_videos()
     
     # Exit with appropriate code
-    sys.exit(0 if results['failed'] == 0 else 1)
+    # Fail if no videos were generated OR if any failed
+    if results['total'] == 0:
+        logger.error("\n❌ Job FAILED: No videos were generated")
+        sys.exit(1)
+    elif results['failed'] > 0:
+        logger.error(f"\n❌ Job FAILED: {results['failed']} out of {results['total']} videos failed to generate")
+        sys.exit(1)
+    else:
+        logger.info(f"\n✅ Job SUCCESS: All {results['success']} videos generated successfully!")
+        sys.exit(0)
 
 
 if __name__ == "__main__":
