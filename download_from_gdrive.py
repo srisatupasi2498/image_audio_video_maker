@@ -67,36 +67,42 @@ class GoogleDriveDownloader:
             'code': 'GGENG',           # File prefix (e.g., GGENG001.jpg)
             'images_folder_id': '1WM3BmU46pRya1ZloxZJ---HbU_phALlZ',    # ID of "ENGLISH jpg files" folder (inside GG ENGLISH folder)
             'audio_folder_id': '1luI0MuvI5NnRh8Oh-0b6NWAJ8SAaWU2R',     # ID of "Final ENGLISH audio files" folder (inside GG ENGLISH folder)
+            'video_folder_id': '1xqVDDMmTru2UcbZ1YJihfXExVzoz7Ul9',     # ID of folder where generated videos will be uploaded (e.g., "ENGLISH video files" folder)
             'digits': 3                # Number of digits in filename (GGENG001 = 3 digits)
         },
         'KANNADA': {
             'code': 'GGKND',           # File prefix (e.g., GGKND001.jpg)
             'images_folder_id': '1nuuHeJskv5ljtw3oT7y_yHRLalk51A6I',    # ID of "KANNADA jpg files" folder (inside GG KANNADA folder)
             'audio_folder_id': '197ef6kJre8snZiiMK_lurgw2N--CE2is',     # ID of "Final KANNADA audio files" folder (inside GG KANNADA folder)
+            'video_folder_id': '1jYHEJhXIVvOkARK19uq2dqpxNJzBgojE',     # ID of folder where generated videos will be uploaded (e.g., "KANNADA video files" folder)
             'digits': 3                # Number of digits in filename (GGKND001 = 3 digits)
         },
         'TELUGU': {
             'code': 'GGTLG',           # File prefix (e.g., GGTLG001.jpg)
             'images_folder_id': '',    # ID of "TELUGU jpg files" folder (inside GG TELUGU folder)
             'audio_folder_id': '1mNGHL3BbbQ659Lej4mS1IcLiZAlKWeN1',     # ID of "Final TELUGU audio files" folder (inside GG TELUGU folder)
+            'video_folder_id':'',
             'digits': 3
         },
         'HINDI': {
             'code': 'GGHND',           # File prefix (e.g., GGHND001.jpg)
             'images_folder_id': '',    # ID of "HINDI jpg files" folder (inside GG HINDI folder)
             'audio_folder_id': '1cRzL9uk9Z8Ewcs6utV9xMi2f6htZFnQR',     # ID of "Final HINDI audio files" folder (inside GG HINDI folder)
+            'video_folder_id':'',
             'digits': 3
         },
         'MARATHI': {
             'code': 'GGMRT',           # File prefix (e.g., GGMRT001.jpg)
             'images_folder_id': '',    # ID of "MARATHI jpg files" folder (inside GG MARATHI folder)
             'audio_folder_id': '1eW5-GAKF96v8KtwD9YMKg8TMxsCkmb4f',     # ID of "Final MARATHI audio files" folder (inside GG MARATHI folder)
+            'video_folder_id':'',
             'digits': 3
         },
         'TAMIL': {
             'code': 'GGTML',           # File prefix (e.g., GGTML001.jpg)
             'images_folder_id': '',    # ID of "TAMIL jpg files" folder (inside GG TAMIL folder)
             'audio_folder_id': '17JwcVxrSjWQmE4IWpt_Y6Dp-bnLAXqSy',     # ID of "Final TAMIL audio files" folder (inside GG TAMIL folder)
+            'video_folder_id':'',
             'digits': 3
         },
         # Add more languages as needed following the same pattern

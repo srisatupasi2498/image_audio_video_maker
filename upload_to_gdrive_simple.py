@@ -30,33 +30,28 @@ logger = logging.getLogger(__name__)
 BASE_PATH = Path(__file__).parent.resolve()
 OUTPUT_VIDEOS_FOLDER = BASE_PATH / "output"
 
-# Language configuration
-LANGUAGE_CONFIG = {
-    'ENGLISH': {
-        'code': 'GGENG',
-        'output_folder_id': os.getenv('ENGLISH_VIDEO_FOLDER_ID', ''),
-    },
-    'KANNADA': {
-        'code': 'GGKND',
-        'output_folder_id': os.getenv('KANNADA_VIDEO_FOLDER_ID', ''),
-    },
-    'TELUGU': {
-        'code': 'GGTLG',
-        'output_folder_id': os.getenv('TELUGU_VIDEO_FOLDER_ID', ''),
-    },
-    'HINDI': {
-        'code': 'GGHND',
-        'output_folder_id': os.getenv('HINDI_VIDEO_FOLDER_ID', ''),
-    },
-    'MARATHI': {
-        'code': 'GGMRT',
-        'output_folder_id': os.getenv('MARATHI_VIDEO_FOLDER_ID', ''),
-    },
-    'TAMIL': {
-        'code': 'GGTML',
-        'output_folder_id': os.getenv('TAMIL_VIDEO_FOLDER_ID', ''),
-    },
-}
+# Import language config from download script to keep IDs in sync
+import sys
+sys.path.insert(0, str(BASE_PATH))
+try:
+    from download_from_gdrive import GoogleDriveDownloader
+    LANGUAGE_CONFIG = {}
+    for lang, config in GoogleDriveDownloader.LANGUAGE_CONFIG.items():
+        LANGUAGE_CONFIG[lang] = {
+            'code': config['code'],
+            'output_folder_id': config.get('video_folder_id', '')
+        }
+except ImportError:
+    # Fallback if import fails
+    logger.warning("⚠️  Could not import config from download script, using defaults")
+    LANGUAGE_CONFIG = {
+        'ENGLISH': {'code': 'GGENG', 'output_folder_id': ''},
+        'KANNADA': {'code': 'GGKND', 'output_folder_id': ''},
+        'TELUGU': {'code': 'GGTLG', 'output_folder_id': ''},
+        'HINDI': {'code': 'GGHND', 'output_folder_id': ''},
+        'MARATHI': {'code': 'GGMRT', 'output_folder_id': ''},
+        'TAMIL': {'code': 'GGTML', 'output_folder_id': ''},
+    }
 
 
 def get_drive_service():
