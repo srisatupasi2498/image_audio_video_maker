@@ -83,16 +83,7 @@ jobs:
           echo "Generated videos:"
           ls -lh output/*.mp4 || echo "No videos generated"
 
-      # Google Drive Upload (requires SERVICE_ACCOUNT_SECRET secret)
-      - name: 📤 Upload Videos to Google Drive
-        env:
-          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_SECRET }}
-        run: |
-          echo "📤 Uploading videos to Google Drive..."
-          python3 upload_to_gdrive_simple.py ${{ inputs.language }}
-          echo "✓ Upload complete"
-
-      - name: 📦 Upload Videos as Artifact (Backup)
+      - name: 📦 Upload Videos as Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -111,10 +102,12 @@ jobs:
           echo "Range: ${{ inputs.start }} to ${{ inputs.end }}"
           echo ""
           echo "📥 Download your videos:"
-          echo "   Go to Actions → This workflow run → Artifacts section"
-          echo "   Click: generated-videos-${{ inputs.language }}-${{ inputs.start }}-${{ inputs.end }}"
+          echo "   1. Go to Actions → This workflow run"
+          echo "   2. Scroll to 'Artifacts' section at bottom"
+          echo "   3. Click: generated-videos-${{ inputs.language }}-${{ inputs.start }}-${{ inputs.end }}"
+          echo "   4. Upload the downloaded videos to Google Drive"
           echo ""
-          echo "Videos will be available for 30 days"
+          echo "⏰ Artifacts available for 30 days"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
       - name: ❌ Failure Notice

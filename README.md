@@ -17,7 +17,10 @@ Automated video generation system with cloud-based processing and multi-language
 3. 🎬 **Select** language and file range
 4. ✅ **Click** "Generate Videos"
 5. ⏱️ **Wait** 15-25 minutes (status updates automatically)
-6. 📥 **Download** your videos from the workflow artifacts
+6. 🎉 **Find videos** automatically uploaded to your Google Drive!
+   - Videos appear in: `GG [LANGUAGE]/[LANGUAGE] video files/`
+   - No GitHub login required!
+   - Also available as artifacts (backup) for 30 days
 
 ### Supported Languages:
 
@@ -35,7 +38,8 @@ Automated video generation system with cloud-based processing and multi-language
 - ✅ **Web-Based Interface**: Generate videos from any device with a browser
 - ✅ **Cloud Processing**: Uses GitHub Actions (free for public repos)
 - ✅ **Unlimited Minutes**: No time limits on public repositories
-- ✅ **Google Drive Integration**: Auto-downloads media from your Google Drive
+- ✅ **Google Drive Integration**: Auto-downloads media AND uploads videos
+- ✅ **No GitHub Login Required**: Videos appear directly in your Google Drive
 - ✅ **Multi-Language Support**: 6 Indian languages + English
 - ✅ **Background Music**: Automatic mixing at 1% volume
 - ✅ **1080p Quality**: Full HD output optimized for YouTube
@@ -49,6 +53,7 @@ Automated video generation system with cloud-based processing and multi-language
 
 - **[Web App Guide](USER_GUIDE.md)** - How to use the web interface
 - **[Google Drive Setup](GOOGLE_DRIVE_SETUP.md)** - Configure your media folders
+- **[Google Drive Auto-Upload](GDRIVE_UPLOAD_SETUP.md)** - ⭐ Enable automatic video uploads
 - **[Production Guide](PRODUCTION_GUIDE.md)** - Multi-project setup & advanced config
 
 ---
@@ -121,8 +126,9 @@ image_audio_video_maker/
 2. **GitHub Actions triggered** → Spins up macOS runner
 3. **Downloads media** → From Google Drive using `gdown`
 4. **Generates videos** → Using ffmpeg with background music
-5. **Uploads artifacts** → Videos available for 30 days
-6. **User downloads** → Clicks download link in UI
+5. **Uploads to Google Drive** → Videos appear in language folder automatically 🎉
+6. **Also creates artifacts** → Available as backup for 30 days
+7. **Team accesses videos** → Directly from Google Drive (no GitHub login needed)
 
 ### Local Workflow (Developers)
 

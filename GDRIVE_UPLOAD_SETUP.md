@@ -111,7 +111,7 @@ For **each language video folder** (all 6):
 
 5. Click **New repository secret**
 
-6. Name: `GOOGLE_SERVICE_ACCOUNT_KEY`
+6. Name: `SERVICE_ACCOUNT_SECRET`
 
 7. Value: Paste the entire JSON content
 
@@ -144,7 +144,7 @@ For **each language video folder** (all 6):
 
 ### Upload step is skipped
 
-- Make sure you added the `GOOGLE_SERVICE_ACCOUNT_KEY` secret to GitHub
+- Make sure you added the `SERVICE_ACCOUNT_SECRET` secret to GitHub
 - Check that the secret name matches exactly (case-sensitive)
 
 ### "No output folder configured"

@@ -1,83 +1,154 @@
-# 📖 Quick Reference: Manual Workflow Trigger
+# 🌐 Video Generator - User Guide
+
+**Generate videos effortlessly with our web interface!**
 
 ---
 
-## 🎯 How to Generate Videos (30 seconds)
+## 🚀 Quick Start (3 Steps)
 
-### **Step 1:** Open the Workflow Page
+### **Step 1:** Open the Web App
 
-Bookmark and open this link:
-
-```
-https://github.com/vinaykumarbu/image_audio_video_maker/actions/workflows/generate-videos.yml
-```
+🔗 **[https://srisatupasi2498.github.io/image_audio_video_maker/](https://srisatupasi2498.github.io/image_audio_video_maker/)**
 
 ---
 
-### **Step 2:** Click "Run workflow"
+### **Step 2:** Fill the Form
 
-Look for the **"Run workflow"** button on the right side (green button).
-
----
-
-### **Step 3:** Fill in the Details
-
-A form will appear with these fields:
-
-| Field        | Example   | Description                                                |
-| ------------ | --------- | ---------------------------------------------------------- |
-| **Language** | `ENGLISH` | Select: ENGLISH, KANNADA, HINDI, TAMIL, TELUGU, or MARATHI |
-| **Start**    | `1`       | First file number (e.g., 1 for GGENG001)                   |
-| **End**      | `3`       | Last file number (e.g., 3 for GGENG003)                    |
+| Field            | Example   | Description                                                  |
+| ---------------- | --------- | ------------------------------------------------------------ |
+| **Language**     | `ENGLISH` | Select from: ENGLISH, KANNADA, HINDI, TAMIL, TELUGU, MARATHI |
+| **Start Number** | `12`      | First file number (e.g., 12 for GGENG012)                    |
+| **End Number**   | `14`      | Last file number (e.g., 14 for GGENG014)                     |
 
 ---
 
-### **Step 4:** Click the Green "Run workflow" Button
+### **Step 3:** Click "Generate Videos"
 
-The workflow will start immediately!
+That's it! ✨ The workflow starts immediately and videos will appear in your Google Drive.
 
 ---
 
 ## ⏱️ What Happens Next?
 
-1. **Download** (~2 min): Downloads images and audio from Google Drive
-2. **Generate** (~10-15 min): Creates videos using ffmpeg
-3. **Upload** (~2 min): Uploads videos back to Google Drive (optional)
+1. ⚙️ **GitHub Actions starts** (workflow begins in cloud)
+2. 📥 **Downloads media** (~2-5 min): Fetches images/audio from Google Drive
+3. 🎬 **Generates videos** (~10-15 min): Creates 1080p MP4 files with background music
+4. 📤 **Uploads to Google Drive** (~1-2 min): Videos appear automatically
+5. 📦 **Creates backup artifacts** (available for 30 days)
 
-**Total Time:** ~15-20 minutes
-
----
-
-## 📊 Check Progress
-
-1. Go to: https://github.com/vinaykumarbu/image_audio_video_maker/actions
-2. Click on the latest workflow run (at the top)
-3. Watch the progress in real-time
-
-**Status indicators:**
-
-- 🟡 Yellow spinning = Running
-- ✅ Green checkmark = Success
-- ❌ Red X = Failed (check logs)
+**Total Time:** ~15-25 minutes
 
 ---
 
-## 📂 Get Your Videos
+## 📊 Monitor Progress
 
-### Option 1: From GitHub (if upload disabled)
+The web page automatically tracks your workflow:
 
-1. Go to the completed workflow run
-2. Scroll down to **"Artifacts"** section
-3. Download the `generated-videos` zip file
-4. Unzip and find videos in `output/` folder
+- 🟡 **Running** - Workflow in progress (updates every 30 seconds)
+- ✅ **Completed** - Videos ready!
+- ❌ **Failed** - Check workflow logs for details
 
-### Option 2: From Google Drive (if upload enabled)
+**Advanced Monitoring:**
 
-Videos will automatically appear in:
+Click **"View All Workflows & Downloads"** button to see all runs and download artifacts.
+
+---
+
+## 📂 Access Your Videos
+
+### Primary Method: Google Drive (Recommended) 🎉
+
+Videos automatically appear in your Google Drive:
+
+**Path:** `Srisatupasi > GG [LANGUAGE] > [LANGUAGE] video files/`
+
+**Examples:**
+
+- English: `Srisatupasi > GG ENGLISH > ENGLISH video files/`
+- Kannada: `Srisatupasi > GG KANNADA > KANNADA video files/`
+
+**✨ No GitHub login required!** Your entire team can access videos directly from Google Drive.
+
+---
+
+### Backup Method: GitHub Artifacts
+
+If needed, you can also download from GitHub:
+
+1. Click **"View All Workflows"** on the web page
+2. Find your workflow run (look for language and number range)
+3. Scroll down to **"Artifacts"** section
+4. Download the ZIP file
+5. Extract to get MP4 files
+
+**Note:** Artifacts expire after 30 days, but Google Drive videos stay forever.
+
+---
+
+## 🔄 Running Multiple Workflows
+
+You can generate videos for different languages/ranges simultaneously:
+
+1. Submit first request (e.g., ENGLISH 1-10)
+2. **Immediately submit another** (e.g., KANNADA 5-15)
+3. Both run in parallel!
+4. Each workflow is tracked independently
+
+**Tip:** Use the "View All Workflows" button to monitor all parallel runs.
+
+---
+
+## ❓ Common Questions
+
+### Q: How long do videos take?
+
+**A:** 15-25 minutes depending on the number of files.
+
+### Q: Can I generate while another is running?
+
+**A:** Yes! Multiple workflows run in parallel.
+
+### Q: Where do videos get uploaded?
+
+**A:** To your Google Drive in the language-specific video folder. See [Google Drive Auto-Upload Setup](GDRIVE_UPLOAD_SETUP.md).
+
+### Q: What if it fails?
+
+**A:** Check the workflow logs via "View All Workflows" button. Common issues:
+
+- Missing files in Google Drive
+- File naming mismatch
+- Google Drive folder IDs not configured
+
+### Q: Team members don't have GitHub accounts
+
+**A:** Perfect! That's why we auto-upload to Google Drive. They access videos directly from Drive.
+
+---
+
+## 🛠️ Advanced: Manual GitHub Trigger
+
+For developers or advanced users, you can trigger workflows directly on GitHub:
 
 ```
-Srisatupasi > GG LANGUAGE > video files > MP4 files
+https://github.com/srisatupasi2498/image_audio_video_maker/actions/workflows/generate-videos.yml
 ```
+
+1. Click **"Run workflow"**
+2. Fill the form
+3. Click green **"Run workflow"** button
+
+---
+
+## 📞 Need Help?
+
+- **Google Drive Setup:** See [GOOGLE_DRIVE_SETUP.md](GOOGLE_DRIVE_SETUP.md)
+- **Auto-Upload Setup:** See [GDRIVE_UPLOAD_SETUP.md](GDRIVE_UPLOAD_SETUP.md)
+- **Technical Issues:** Check [GitHub Issues](https://github.com/srisatupasi2498/image_audio_video_maker/issues)
+
+---
+
+**Happy Video Generating! 🎬**
 
 Example: For English videos, check:
 
