@@ -86,9 +86,9 @@ class GoogleDriveDownloader:
         },
         'HINDI': {
             'code': 'GGHND',           # File prefix (e.g., GGHND001.jpg)
-            'images_folder_id': '',    # ID of "HINDI jpg files" folder (inside GG HINDI folder)
+            'images_folder_id': '10RQhJbIbl7QeUSf8k9B07kcGJLpkLLNE',    # ID of "HINDI jpg files" folder (inside GG HINDI folder)
             'audio_folder_id': '1cRzL9uk9Z8Ewcs6utV9xMi2f6htZFnQR',     # ID of "Final HINDI audio files" folder (inside GG HINDI folder)
-            'video_folder_id':'',
+            'video_folder_id':'1l-54Qcx0qoEYx17WheqB1Kw9t_s7JFbG',
             'digits': 3
         },
         'MARATHI': {
